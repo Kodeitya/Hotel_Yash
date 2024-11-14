@@ -1,6 +1,7 @@
-// Contact.js or ContactForm.js
+// ContactForm.js
 import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
+import styles from './ContactForm.module.css';
 
 function ContactForm() {
     const [formData, setFormData] = useState({
@@ -24,7 +25,6 @@ function ContactForm() {
             return;
         }
 
-        // Define parameters for the EmailJS template
         const templateParams = {
             name: formData.name,
             email: formData.email,
@@ -32,16 +32,15 @@ function ContactForm() {
             message: formData.message,
         };
 
-        // Send email using EmailJS
         emailjs.send(
-            'service_d7qx6ci',         // Replace with your EmailJS Service ID
-            'template_4s0i78h',        // Replace with your EmailJS Template ID
+            'service_d7qx6ci',
+            'template_4s0i78h',
             templateParams,
-            'mT4k_tNtGIeBKN2_y'          // Replace with your EmailJS Public Key
+            'mT4k_tNtGIeBKN2_y'
         ).then((response) => {
             console.log('Email successfully sent:', response.status, response.text);
             setSubmitted(true);
-            setFormData({ name: '', email: '', subject: '', message: '' }); // Reset form
+            setFormData({ name: '', email: '', subject: '', message: '' });
         }).catch((error) => {
             console.error('Email sending failed:', error);
             alert('Failed to send message, please try again later.');
@@ -49,10 +48,10 @@ function ContactForm() {
     };
 
     return (
-        <div style={{ maxWidth: '600px', margin: 'auto', padding: '20px', paddingTop: '200px' }}>
-            <h2 style={{ textAlign: 'center' }}>Contact Us</h2>
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                <label>
+        <div className={styles.container}>
+            <h2 className={styles.heading}>Contact Us</h2>
+            <form onSubmit={handleSubmit} className={styles.form}>
+                <label className={styles.label}>
                     Name:
                     <input
                         type="text"
@@ -60,10 +59,10 @@ function ContactForm() {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        style={{ width: '100%', padding: '8px', fontSize: '16px' }}
+                        className={styles.input}
                     />
                 </label>
-                <label>
+                <label className={styles.label}>
                     Email:
                     <input
                         type="email"
@@ -71,35 +70,33 @@ function ContactForm() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        style={{ width: '100%', padding: '8px', fontSize: '16px' }}
+                        className={styles.input}
                     />
                 </label>
-                <label>
+                <label className={styles.label}>
                     Contact Number:
                     <input
                         type="text"
                         name="subject"
                         value={formData.subject}
                         onChange={handleChange}
-                        style={{ width: '100%', padding: '8px', fontSize: '16px' }}
+                        className={styles.input}
                     />
                 </label>
-                <label>
+                <label className={styles.label}>
                     Message:
                     <textarea
                         name="message"
                         value={formData.message}
                         onChange={handleChange}
                         required
-                        style={{ width: '100%', padding: '8px', fontSize: '16px', minHeight: '100px' }}
+                        className={styles.textarea}
                     />
                 </label>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <button type="submit" style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
-                        Submit
-                    </button>
+                    <button type="submit" className={styles.button}>Submit</button>
                 </div>
-                {submitted && <p style={{ color: 'green', textAlign: 'center' }}>Thank you for contacting us!</p>}
+                {submitted && <p className={styles.successMessage}>Thank you for contacting us!</p>}
             </form>
         </div>
     );
